@@ -1,13 +1,17 @@
 #!/usr/bin/env python
 
-from ROOT import KTrapezoidalFilter
+from ROOT import *
+import numpy as np
 import sys
 
 class drs4Analyzer(object):
   
-  def __init__(self, pause=True):
-    self.energy = {}
-    
+  def __init__(self, pause=False):
+    self.data = {}
+    self.pause = pause
+    self.trap = KTrapezoidalFilter()
+    self.trap.SetParams(30, 10, 50)
+
   def handleEvent(self, event):
     
     for chan in event.chanData.iterkeys():
@@ -15,15 +19,32 @@ class drs4Analyzer(object):
         return  #skip this event and go to the next...
         
     for chan in event.chanData.iterkeys(): 
-      if len(event.chanData[chan]['x']) > 0:
-        print 'plotting', chan
-        plt.plot( np.array(event.chanData[chan]['x']),  np.array(event.chanData[chan]['y']), label = chan)
-    
-    plt.title('Event %s, %s' % (event.event, event.eventTime))
-    plt.show()
-    
-    if self.pause == True:
-      print 'hit enter to go to next event. q to quit'
-      go = raw_input()
+      if len(event.chanData[chan]['y']) > 0:
+        
+        if self.data.has_key(chan) == False:
+          self.data[chan] = {}
+          self.data[chan]['amp'] = []
+          self.data[chan]['time'] = []
+      
+      trapOut = std.vector('double')()
+      trapIn =  std.vector('double')()
+      
+      for i in range(len( event.chanData[chan]['y'] )):
+        trapIn.push_back( event.chanData[chan]['y'][i] )
+        trapOut.push_back(0.)
+        
+      print typeof(trapIn)
+      
+      self.trap.SetInputPulse(trapIn)
+      self.trap.SetOutputPulse(trapOut)
+      self.trap.RunProcess()
+      trapOut = self.trap.GetOutputPulse()
+      
+      print trapOut
+      print trapOut[0]
+      print trapOut.size()
+      
+      go = raw_input()  # wait for user to go
       if go == 'q':
-        sys.exit(1)
+        sys.exit(0)
+   
