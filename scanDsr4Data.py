@@ -1,12 +1,15 @@
 #!/usr/bin/env python
-import drs4Event
+import drs4Event,eventPlotter, dataAnalysis
 from xml.sax import make_parser, ContentHandler
 import sys
-import eventPlotter
 
 
 if __name__ == '__main__':
        p = make_parser()
-       p.setContentHandler(drs4Event.drs4Event( eventPlotter.plotter() ))
+       data = dataAnalysis.drs4Analyzer('testOut.root', True)
+       p.setContentHandler( drs4Event.drs4Event(  data ) )
        p.parse(sys.argv[1])
+       data.file.cd()
+       data.file.Write()
+       data.file.Close()
        

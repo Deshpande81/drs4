@@ -38,7 +38,7 @@ class drs4Event(ContentHandler):
             self.chanData['CHN4']['misread'] = False
             
         elif tag.startswith('CHN'):
-            print 'set current channel', tag
+            #print 'set current channel', tag
             self.currentChannel = tag
 
     def endElement(self, tag):
