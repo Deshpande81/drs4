@@ -74,14 +74,15 @@ class drs4Event(ContentHandler):
             self.chanData[self.currentChannel]['x'].append( ad[0] )
             self.chanData[self.currentChannel]['y'].append( ad[1] )
           except Exception:
+            
             self.chanData[self.currentChannel]['misread'] = True
-            print self.currentChannel
-            print 'data', data
-            print len(self.chanData[self.currentChannel]['x']), len(self.chanData[self.currentChannel]['y'])
-            print 'previous point', self.chanData[self.currentChannel]['x'][ len(self.chanData[self.currentChannel]['x']) -1 ], self.chanData[self.currentChannel]['y'][ len(self.chanData[self.currentChannel]['y']) -1 ]
-            print self.event
-            print self.eventTime
-            print self.numEvents
+            # print self.currentChannel
+            #             print 'data', data
+            #             print len(self.chanData[self.currentChannel]['x']), len(self.chanData[self.currentChannel]['y'])
+            #             print 'previous point', self.chanData[self.currentChannel]['x'][ len(self.chanData[self.currentChannel]['x']) -1 ], self.chanData[self.currentChannel]['y'][ len(self.chanData[self.currentChannel]['y']) -1 ]
+            #             print self.event
+            #             print self.eventTime
+            #             print self.numEvents
             #print [ float(data.split(',')[0]),  float(data.split(',')[1]) ]
             pass
 

@@ -6,10 +6,11 @@ import sys
 
 if __name__ == '__main__':
        p = make_parser()
-       data = dataAnalysis.drs4Analyzer(sys.argv[1].strip('.xml')[0]+'.root', False)
+       outputfile = sys.argv[1].split('.xml')[0]+'.root'
+       print outputfile
+       data = dataAnalysis.drs4Analyzer(outputfile, False)
        p.setContentHandler( drs4Event.drs4Event(  data ) )
        p.parse(sys.argv[1])
-       data.file.cd()
-       data.file.Write()
-       data.file.Close()
+       data.write()
+       data.close()
        
