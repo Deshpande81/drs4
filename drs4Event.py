@@ -56,7 +56,7 @@ class drs4Event(ContentHandler):
         # print 'current tag', self.currentTag
         #         print 'data chunk', data
         
-        if self.currentTag == 'Serial':
+        if self.currentTag == "Serial":
           self.event = data
 
         if self.currentTag == 'Time':
